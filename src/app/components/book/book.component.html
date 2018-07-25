@@ -1,0 +1,22 @@
+<div>
+  <ul>
+    <!-- we need one LI tag for each person in the array of persons -->
+    <li *ngFor="let person of persons">
+      <!-- inside just show the first, last and middle name -->
+      <strong>{{person.firstname}} {{person.lastname}}</strong>,
+      {{person.middlename}}
+      <!-- we also have a link that when clicked it calls the EDIT method of
+           the book controller, for the person that this LI is about. Since
+           this is the click of a hyperlink, then it must return false in
+           order for it to not reload the page (i.e. not follow the empty href
+           target, which by default refreshes the page)
+      -->
+      <a href (click)="edit(person)">edit &#9998;</a>
+      <br>
+      <!-- then just show the phones (as is the default presentation of an array
+           converted to string, i.e. comma separated the values of the array)
+      -->
+      {{person.getPhones()}}
+    </li>
+  </ul>
+</div>

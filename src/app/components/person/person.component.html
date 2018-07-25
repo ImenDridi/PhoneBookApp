@@ -1,0 +1,44 @@
+<!-- let's just show the object so that we know
+     what we are doing! -->
+<pre>
+  {{person | json}}
+</pre>
+<!-- just connect each input textbox with the
+     fields of a person
+     NOTE that for ngModel to work you have to
+     add the FormsModule in the app.module.ts
+     as it is there on lines 3 & 19
+-->
+<label>Firstname <input type="text" [(ngModel)]="person.firstname" placeholder="First Name"></label>
+<label>Lastname  <input type="text" [(ngModel)]="person.lastname"  placeholder="Last Name"></label>
+<label>Middlename <input type="text" [(ngModel)]="person.middlename" placeholder="Middle Name"></label>
+<!-- we use the date control, however the value that it is assigning to the person.birthdate is a string !!
+     Although we've declared the variable as a Date, the assignment is done at browser level so it is via
+     JavaScript and thus overrides the type checking -->
+<label>Birthdate <input type="date" [(ngModel)]="person.birthdate" placeholder="Birthdate"></label>
+<!-- the newPhone is the phone to be added, it is not a part of the model, it is part of the
+     component (= the controller) -->
+<label>
+  New Phone <input type="text" [(ngModel)]="newPhone" placeholder="Add a new phone">
+  <!-- the button when clicked adds the phone to the person, and "forgets" it's value (newPhone)
+       To protect the user from attempting to add an invalid phone, the button is disabled when
+       the newPhone is not valid -->
+  <button
+    (click)="person.addPhone(newPhone); newPhone='';"
+    [disabled]="!person.validatePhone(newPhone)"
+  >Add </button>
+</label>
+<!-- the list of the pnones-->
+<ul>
+  <li *ngFor="let t of person.getPhones()">
+    <!-- shows each phone -->
+    {{t}}
+    <!-- and has a button that when clicked it removes the phone -->
+    <button (click)="person.removePhone(t)">x</button>
+  </li>
+</ul>
+
+<!-- finally there is a SAVE button that calls the storePerson controller method, to just emit the event -->
+<button (click)="storePerson()">SAVE</button>
+<!-- and a CANCEL button that calls the cancel controller method, to just emit the event -->
+<button (click)="cancel()">CANCEL</button>

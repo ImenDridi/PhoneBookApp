@@ -1,0 +1,17 @@
+/* this is some CSS to make it look a little bit better */
+ul {
+    list-style: none;
+    padding: 4px;
+    margin: 30px;
+    border: 1px solid black;
+}
+li {
+    border-bottom: 1px solid black;
+    padding: 8px;
+}
+li:first-of-type {
+    border-top: 1px solid black;
+}
+li:nth-last-of-type(even) {
+    background-color: #eee;
+}

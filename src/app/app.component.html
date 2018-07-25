@@ -1,0 +1,67 @@
+<!-- let's create a simple bar and style it a little bit with css -->
+<div class="topbar">
+        <!-- add an input box for the user to enter the search term -->
+        <label>Search for: <input [(ngModel)]="searchTerm"></label>
+
+        <!-- we add a drop down list for the user to select the
+             field based on which the ordering/sorting will be
+             done. -->
+        <label>Order by: 
+                <!-- this is a dropdown element -->
+                <select [(ngModel)]="orderBy">
+                        <!-- all the options in the dropdown list are "inside" -->
+                        <option value="firstname">First name</option>
+                        <!-- in each option the visible part is between the
+                             opening and closing tags -->
+                        <option value="lastname">Last name</option>
+                        <!-- and the value that goes to the [(ngModel)] above
+                             is in the value attribute -->
+                        <option value="middlename">Middle name</option>
+                        <option value="birthdate">Birthdate</option>
+                </select>
+        </label>
+
+        <!-- this is the checkbox that you have to make it look better with the
+             <label> tag and that the value "decides" if the sorting is reversed -->
+        <input type="checkbox" [(ngModel)]="isReverse">
+</div>
+
+<!-- let's show the book of persons
+        the book is a component that shows a list of persons
+        this list is given to the component throught the
+        [persons] INPUT, since this is an input of the book
+        component you will find it in the book.component.ts (=controller)
+
+        Whenever the user wants to edit a person the (edit) event is "raised"
+        by the component. So anyone that is interested will find out. In this
+        case, here (i.e. the template of the app.component), we set the
+        editedPerson "variable" to be a clone of the person coming from the event.
+        The $event variable is what the book comonent has "emitted" there. So
+        if you look at the code the $event IS the person for which the user
+        requested the editing.
+ -->
+<app-book [persons]="getPersons()" (edit)="editedPerson=$event.clone()"></app-book>
+
+<!-- this button just calls createPerson of the app controller and thus have the label New Person -->
+<button (click)="createPerson()">New Person</button>
+
+<!-- below (this can be fixed via CSS to become "beside") the single person
+        editing component is shown only (*ng)If the the editedPerson is not
+        undefined. That means that is shown only if some person is being edited.
+        That is what *ngIf is about.
+
+        The editedPerson is given/passed to the person component via the
+        [person] INPUT, since this is an input of the person
+        component you will find it in the person.component.ts (=controller)
+ -->
+<app-person
+        *ngIf="editedPerson !== undefined"
+        [person]="editedPerson"
+        (store)="storePerson($event)"
+        (cancel)="editedPerson=undefined"
+></app-person>
+
+<!-- utility just to show the persons list nicely formatted to help up during development -->
+<pre>
+        {{getPersons() | json}}
+</pre>
